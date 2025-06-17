@@ -1,0 +1,32 @@
+# Source files
+src/
+test/
+
+# Config files
+.gitignore
+.npmignore
+tsconfig.json
+.eslintrc*
+jest.config.*
+.prettierrc*
+
+# Development files
+*.log
+*.tgz
+.DS_Store
+node_modules/
+coverage/
+.nyc_output/
+.vscode/
+.idea/
+
+# Git
+.git/
+.github/
+
+# Temp files
+*.tmp
+*.temp
+.cache/
+
+# Keep only dist, README, and LICENSE
