@@ -171,7 +171,7 @@ export class StorageReadInLoopRule extends BaseRule {
   }
 
 
-  private trackAssignment(node: BinaryOperation) {
+  private trackAssignment(node: any) {
     // check if we're caching a storage variable
     if (node.left?.type === 'Identifier' &&
         node.right?.type === 'MemberAccess' &&

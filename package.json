@@ -4,7 +4,6 @@
   "description": "CLI tool for detecting gas optimization opportunities in Solidity code",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "bin": {
     "gas-opt": "./dist/cli.js"
   },
