@@ -1,8 +1,14 @@
 import { BaseRule, RuleContext } from "./base-rule";
+import { PublicVsExternalRule } from "./public-vs-external";
+import { StateVariablePackingRule } from "./state-variable-packing";
 import { StorageReadInLoopRule } from "./storage-read-in-loops";
+import { UseCustomErrorsRule } from "./use-custom-errors";
 
 export const ALL_RULES = [
-  StorageReadInLoopRule
+  StorageReadInLoopRule,
+  PublicVsExternalRule,
+  StateVariablePackingRule,
+  UseCustomErrorsRule
   // ... add new rules
 ];
 
