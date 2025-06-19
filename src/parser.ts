@@ -46,18 +46,9 @@ export async function analyzeFile(filePath: string) {
 
     process.stdout.write(chalk.yellow('⏳ Analyzing for optimizations...'));
 
-    console.log('\n' + chalk.yellow('AST Structure...'));
+    // console.log('\n' + chalk.yellow('AST Structure...'));
     // console.log(chalk.green(JSON.stringify(ast)));
-    console.log('-'.repeat(50));
-    console.log(ast?.children.length);
-    // if (ast.children) {
-    //   for (const items of ast.children) {
-    //     console.log(' > children:', chalk.green(JSON.stringify(items)));
-    //     Object.keys(items).forEach((item, index) => {
-    //       console.log(' >> children key item: ', item, ' -- ', chalk.green(JSON.stringify(items[item])));
-    //     })
-    //   }
-    // }
+
 
 
     const analyzer = new GasAnalyzer();

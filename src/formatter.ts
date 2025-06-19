@@ -85,7 +85,7 @@ function formatSingleIssue(issue: GasIssue, lines: string[], index: number) {
 
   // Code snippet with better formatting
   const line = lines[issue.line - 1] || '';
-  const trimmedLine = line.trim();
+  const trimmedLine = line;
   const lineNumber = String(issue.line).padStart(4, ' ');
 
   console.log(chalk.gray(`\n    ${lineNumber} │ `) + highlightCode(trimmedLine));
