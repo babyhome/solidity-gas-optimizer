@@ -31,6 +31,16 @@ program
       return;
     }
 
+    if (options.listRules) {
+      console.log(chalk.bold('\n📋 Available Rules:\n'));
+      ALL_RULES.forEach(ruleClass => {
+        const rule = new ruleClass({} as any);
+        console.log(chalk.whiteBright.bold(`  • `) + chalk.yellow(`${rule.getName()}`));
+        console.log(chalk.gray(`    ${rule.getDescription()}\n`));
+      });
+      return;
+    }
+
     console.log(chalk.blue('='.repeat(50)));
     console.log(chalk.blue(`🔍 Analyzing ${filePath}...`));
 

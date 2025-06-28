@@ -78,7 +78,7 @@ export class StateVariablePackingRule extends BaseRule {
     const currentSlots = this.calculateStorageSlots(this.stateVariables);
 
     // Calculate optimal layout (sort by size descending, pack small types)
-    const optimizedVars = this.optimizeVariableOrder([...this.stateVariables]);
+    const optimizedVars = this.optimizeVariableOrderV2([...this.stateVariables]);
     const optimalSlots = this.calculateStorageSlots(optimizedVars);
 
     // If we can save slots, report issues
@@ -114,6 +114,7 @@ export class StateVariablePackingRule extends BaseRule {
 
 
   private optimizeVariableOrder(variables: StateVariable[]): StateVariable[] {
+    const sorted = [...variables].sort((a, b) => b.size - a.size);
     // Separate by size categories
     const size32: StateVariable[] = [];
     const sizeLarge: StateVariable[] = [];    // > 16 bytes but < 32
@@ -134,6 +135,58 @@ export class StateVariablePackingRule extends BaseRule {
       ...sizeMedium,
       ...sizeSmall
     ];
+  }
+
+  
+  private optimizeVariableOrderV2(variables: StateVariable[]): StateVariable[] {
+    const slots: StateVariable[][] = [];
+    const sorted = [...variables].sort((a, b) => b.size - a.size);
+
+    for (const variable of sorted) {
+      let bestSlotIdx = -1;
+      let minSpace = 33;
+
+      for (let i = 0; i < slots.length; i++) {
+        const used = slots[i].reduce((sum, v) => sum + v.size, 0);
+        const space = 32 - used;
+        if (variable.size <= space && space < minSpace) {
+          bestSlotIdx = i;
+          minSpace = space;
+        }
+      }
+
+      if (bestSlotIdx === -1) {
+        // no slot
+        slots.push([variable]);
+      } else {
+        slots[bestSlotIdx].push(variable);
+      }
+    }
+
+    return slots.flat();
+  }
+
+  private bestFitPacking(variables: StateVariable[]): StateVariable[] {
+    const result: StateVariable[] = [];
+    const slots: { remaining: number; vars: StateVariable[]}[] = [];
+
+    for (const variable of variables) {
+      // find slot 
+      let bestSlot = slots.find(slot =>
+        slot.remaining >= variable.size &&
+        slot.remaining - variable.size < 4 // prefer tight fit
+      );
+
+      if (!bestSlot) {
+        bestSlot = { remaining: 32, vars: [] };
+        slots.push(bestSlot);
+      }
+
+      bestSlot.vars.push(variable);
+      bestSlot.remaining -= variable.size;
+    }
+    
+    return slots.flatMap(slot => slot.vars);
   }
 
 
