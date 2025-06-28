@@ -1,6 +1,6 @@
 {
   "name": "solidity-gas-optimizer",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "CLI tool for detecting gas optimization opportunities in Solidity code",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
