@@ -19,7 +19,17 @@ program
   .option('-l, --list-rules', 'List all available rules')
   .action(async (filePath: string, options: any) => {
     console.log('filePath: ', filePath);
-    console.log('options:', options);
+    // console.log('options:', options, options.rules);
+
+    if (options.listRules) {
+      console.log(chalk.bold('\n📋 Available Rules:\n'));
+      ALL_RULES.forEach(ruleClass => {
+        const rule = new ruleClass({} as any);
+        console.log(chalk.whiteBright.bold(`  •  `) + chalk.yellow(`${rule.getName()}`));
+        console.log(chalk.gray(`    ${rule.getDescription()}\n`));
+      });
+      return;
+    }
 
     if (options.listRules) {
       console.log(chalk.bold('\n📋 Available Rules:\n'));
