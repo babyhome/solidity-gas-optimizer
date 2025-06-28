@@ -114,6 +114,7 @@ export class StateVariablePackingRule extends BaseRule {
 
 
   private optimizeVariableOrder(variables: StateVariable[]): StateVariable[] {
+    const sorted = [...variables].sort((a, b) => b.size - a.size);
     // Separate by size categories
     const size32: StateVariable[] = [];
     const sizeLarge: StateVariable[] = [];    // > 16 bytes but < 32
@@ -134,6 +135,29 @@ export class StateVariablePackingRule extends BaseRule {
       ...sizeMedium,
       ...sizeSmall
     ];
+  }
+
+  private bestFitPacking(variables: StateVariable[]): StateVariable[] {
+    const result: StateVariable[] = [];
+    const slots: { remaining: number; vars: StateVariable[]}[] = [];
+
+    for (const variable of variables) {
+      // find slot 
+      let bestSlot = slots.find(slot =>
+        slot.remaining >= variable.size &&
+        slot.remaining - variable.size < 4 // prefer tight fit
+      );
+
+      if (!bestSlot) {
+        bestSlot = { remaining: 32, vars: [] };
+        slots.push(bestSlot);
+      }
+
+      bestSlot.vars.push(variable);
+      bestSlot.remaining -= variable.size;
+    }
+    
+    return slots.flatMap(slot => slot.vars);
   }
 
 

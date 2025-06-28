@@ -13,7 +13,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "start": "tsx src/cli.ts -- analyze ./test/contracts/StorageInLoop.sol",
+    "start": "tsx src/cli.ts -- analyze ./test/contracts/StatePackingTest.sol",
     "dev": "tsx src/cli.ts",
     "dev-watch": "tsx watch src/cli.ts",
     "dev-node": "node dist/cli.js",
