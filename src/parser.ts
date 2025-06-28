@@ -40,16 +40,12 @@ export async function analyzeFile(filePath: string) {
 
     // show progress
     process.stdout.write(chalk.yellow('\n⏳ Parsing Solidity code...'));
+    // console.log(content);
 
     const ast = parser.parse(content, { loc: true, range: true, tolerant: true });
     console.log(chalk.green(' Done!'));
 
     process.stdout.write(chalk.yellow('⏳ Analyzing for optimizations...'));
-
-    // console.log('\n' + chalk.yellow('AST Structure...'));
-    // console.log(chalk.green(JSON.stringify(ast)));
-
-
 
     const analyzer = new GasAnalyzer();
     const result = analyzer.analyze(ast, filePath);
@@ -72,7 +68,5 @@ export async function analyzeFile(filePath: string) {
     process.exit(1);
   }
 }
-
-
 
 
